@@ -17,6 +17,8 @@ class EmojiArtDocument: ObservableObject {
     
     init(){
         emojiArt = EmojiArtModel()
+        emojiArt.addEmoji("🐋", at: (-200,-100), size: 80) // 0,0 at the left top
+        emojiArt.addEmoji("🦣", at: (-50,-50), size: 50)
     }
     var emojis: [EmojiArtModel.Emoji] {emojiArt.emojis}
     var background: EmojiArtModel.Background {emojiArt.background}
