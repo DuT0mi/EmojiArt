@@ -22,13 +22,17 @@ struct EmojiArtDocumentView: View {
             ZStack{
                 Color.white.overlay{
                     OptionalImage(uiImage: document.backgroundImage) // In the extension
-                        .position(convertFromCoordinates((0,0), in: geometry))
+                        .position(convertFromCoordinates((0,0), in: geometry))// 0,0 is the middle in that (converted) coordinate system
                 }
+                if document.backgroundImageFetchStatus == .fetching {
+                    ProgressView().scaleEffect(2)
+                }else {
                 ForEach(document.emojis){emoji in
                     Text(emoji.text)
                         .font(.system(size: fontSize(for: emoji)))
                         .position(position(for:emoji, in: geometry))
                 }
+             }
             }.onDrop(of: [.plainText, .url, .image],isTargeted: nil){
                 providers,location in return drop(providers: providers, at: location, in: geometry)
             }

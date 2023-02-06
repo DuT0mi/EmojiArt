@@ -30,17 +30,24 @@ class EmojiArtDocument: ObservableObject {
     var background: EmojiArtModel.Background {emojiArt.background}
     
     @Published var backgroundImage:UIImage?
+    @Published var backgroundImageFetchStatus = BackgroundImageFetchStatus.idle
     
+    enum BackgroundImageFetchStatus{
+        case idle
+        case fetching
+    }
     private func fetchBackgroundImageDataIfNecessary(){
         backgroundImage = nil
         switch emojiArt.background{
         case .url(let url):
             // fetch the url
+            backgroundImageFetchStatus = .fetching
             DispatchQueue.global(qos: .userInitiated).async {
                 let imageData = try? Data(contentsOf: url)
                 DispatchQueue.main.async {// UI only in the main
                     [weak self] in // cuz we do not want to live in the memory
                     if self?.emojiArt.background == EmojiArtModel.Background.url(url){ // If it is the User want (not the user wanted about 10 min ago)
+                        self?.backgroundImageFetchStatus = .idle
                         if imageData != nil{
                             self?.backgroundImage = UIImage(data:imageData!)
                         }
