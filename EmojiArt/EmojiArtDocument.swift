@@ -36,9 +36,16 @@ class EmojiArtDocument: ObservableObject {
         switch emojiArt.background{
         case .url(let url):
             // fetch the url
-            let imageData = try? Data(contentsOf: url)
-            if imageData != nil{
-                backgroundImage = UIImage(data:imageData!)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let imageData = try? Data(contentsOf: url)
+                DispatchQueue.main.async {// UI only in the main
+                    [weak self] in // cuz we do not want to live in the memory
+                    if self?.emojiArt.background == EmojiArtModel.Background.url(url){ // If it is the User want (not the user wanted about 10 min ago)
+                        if imageData != nil{
+                            self?.backgroundImage = UIImage(data:imageData!)
+                        }
+                    }
+                }
             }
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
