@@ -40,8 +40,8 @@ struct EmojiArtDocumentView: View {
             .onDrop(of: [.plainText, .url, .image],isTargeted: nil){
                 providers,location in return drop(providers: providers, at: location, in: geometry)
             }
-            .gesture(zoomGesture())
-            
+            .gesture(panGesture().simultaneously(with: zoomGesture()))
+            // That's the way of adding multiple gestures
         }
     }
     private func doubleTapToZoom(in size: CGSize)->some Gesture{
@@ -53,8 +53,27 @@ struct EmojiArtDocumentView: View {
             }
     }
     
+    @State private var steadyStatePanOffset: CGSize = CGSize.zero
+    @GestureState private var gesturePanOffSet: CGSize = CGSize.zero
+    
+    private var panOffsetSize:CGSize {
+       (steadyStatePanOffset + gesturePanOffSet) * zoomScale // Added extension to the CGSize (func + )
+    }
+    
+    private func panGesture() -> some Gesture {
+        DragGesture()
+            .updating($gesturePanOffSet){latestDragGestureValue, gesturePanOffSet, _ in
+                // In that enviroment (gesturePanOffSet) is an In-Out version of the gesture's version
+                gesturePanOffSet = latestDragGestureValue.translation / zoomScale
+            }
+            .onEnded{ finalDragGestureValue in
+            steadyStatePanOffset = steadyStatePanOffset + (finalDragGestureValue.translation / zoomScale)
+        }
+    }
+    
     @State private var steadyStateZoomScale: CGFloat = 1
     @GestureState private var gestureZoomScale: CGFloat = 1
+    
     
     private var zoomScale: CGFloat {
         steadyStateZoomScale * gestureZoomScale
