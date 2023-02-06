@@ -22,21 +22,62 @@ struct EmojiArtDocumentView: View {
             ZStack{
                 Color.white.overlay{
                     OptionalImage(uiImage: document.backgroundImage) // In the extension
+                        .scaleEffect(zoomScale)
                         .position(convertFromCoordinates((0,0), in: geometry))// 0,0 is the middle in that (converted) coordinate system
                 }
+                .gesture(doubleTapToZoom(in:geometry.size))
                 if document.backgroundImageFetchStatus == .fetching {
                     ProgressView().scaleEffect(2)
                 }else {
                 ForEach(document.emojis){emoji in
                     Text(emoji.text)
                         .font(.system(size: fontSize(for: emoji)))
+                        .scaleEffect(zoomScale)
                         .position(position(for:emoji, in: geometry))
                 }
              }
-            }.onDrop(of: [.plainText, .url, .image],isTargeted: nil){
+            }.clipped()
+            .onDrop(of: [.plainText, .url, .image],isTargeted: nil){
                 providers,location in return drop(providers: providers, at: location, in: geometry)
             }
+            .gesture(zoomGesture())
             
+        }
+    }
+    private func doubleTapToZoom(in size: CGSize)->some Gesture{
+        TapGesture(count: 2)
+            .onEnded{
+                withAnimation{
+                    zoomToFit(document.backgroundImage,in: size)
+                }
+            }
+    }
+    
+    @State private var steadyStateZoomScale: CGFloat = 1
+    @GestureState private var gestureZoomScale: CGFloat = 1
+    
+    private var zoomScale: CGFloat {
+        steadyStateZoomScale * gestureZoomScale
+    }
+    
+    private func zoomGesture() -> some Gesture {
+        MagnificationGesture()
+            .updating($gestureZoomScale){ latestGestureScale, gestureZoomScale, transaction in
+                // In that enviroment (gestureZoomScale) is an In-Out version of the gesture's version
+                gestureZoomScale = latestGestureScale
+                
+            }
+            .onEnded{gestureScaleAtEnd in
+                steadyStateZoomScale *= gestureScaleAtEnd
+                
+            }
+    }
+    
+    private func zoomToFit(_ image: UIImage?, in size: CGSize){
+        if let image = image, image.size.width > 0, image.size.height > 0, size.width > 0, size.height > 0{
+            let hZoom = size.width / image.size.width
+            let vZoom = size.height / image.size.height
+            steadyStateZoomScale = min(hZoom,vZoom)
         }
     }
     private func drop(providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy)->Bool{
@@ -56,7 +97,7 @@ struct EmojiArtDocumentView: View {
                     document.addEmoji(
                         String(emoji),
                         at: convertToEmojiCoordinates(location, in:geometry),
-                        size: defaultEmojiFontsize
+                        size: defaultEmojiFontsize / zoomScale
                     )
                 }
             }
@@ -70,15 +111,15 @@ struct EmojiArtDocumentView: View {
     private func convertFromCoordinates(_ location: (x: Int,y: Int), in geometry: GeometryProxy)-> CGPoint{
         let center = geometry.frame(in: .local).center // Returns a CGReact but there is a func which is convert it to CGpoint : UtilityExtensions.swift
         return CGPoint(
-            x: center.x + CGFloat(location.x),
-            y: center.y + CGFloat(location.y)
+            x: center.x + CGFloat(location.x) * zoomScale,
+            y: center.y + CGFloat(location.y) * zoomScale
         )
     }
     private func convertToEmojiCoordinates(_ location: CGPoint, in geometry: GeometryProxy)->(x: Int, y:Int) {
         let center = geometry.frame(in: .local).center // Returns a CGReact but there is a func which is convert it to CGpoint : UtilityExtensions.swift
         let location = CGPoint(
-            x: location.x - center.x,
-            y: location.y - center.y
+            x: (location.x - center.x) / zoomScale,
+            y: (location.y - center.y) / zoomScale
         )
         return (Int(location.x),Int(location.y))
     }
