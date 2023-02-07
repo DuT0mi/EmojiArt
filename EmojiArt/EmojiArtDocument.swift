@@ -15,10 +15,18 @@ class EmojiArtDocument: ObservableObject {
     
     @Published private(set) var emojiArt: EmojiArtModel{
         didSet{
-            autosave()
+            scheduleAutosave()
             if emojiArt.background != oldValue.background{
                 fetchBackgroundImageDataIfNecessary()
             }
+        }
+    }
+    private var autosaveTimer: Timer?
+    
+    private func scheduleAutosave(){
+        autosaveTimer?.invalidate()
+        autosaveTimer = Timer.scheduledTimer(withTimeInterval: Autosave.coalescingInterval, repeats: false) {_ in
+            self.autosave()
         }
     }
     private struct Autosave{
@@ -28,6 +36,7 @@ class EmojiArtDocument: ObservableObject {
             return documentDirectory?.appendingPathComponent(filename)
             
         }
+        static let coalescingInterval = 5.0
     }
     private func autosave(){
         if let url = Autosave.url{
