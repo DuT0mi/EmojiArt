@@ -15,13 +15,44 @@ class EmojiArtDocument: ObservableObject {
     
     @Published private(set) var emojiArt: EmojiArtModel{
         didSet{
+            autosave()
             if emojiArt.background != oldValue.background{
                 fetchBackgroundImageDataIfNecessary()
             }
         }
     }
+    private struct Autosave{
+        static let filename = "Autosaved.emojiart"
+        static var url: URL? {
+            let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first // for iOS, for MAC the mask and .first may be other, because there could be more there
+            return documentDirectory?.appendingPathComponent(filename)
+            
+        }
+    }
+    private func autosave(){
+        if let url = Autosave.url{
+            save(to: url)
+        }
+    }
+    private func save(to url:URL){// file URL
+        let thisFunction = "\(String(describing: self)).\(#function)"
+        do{
+            let data: Data = try emojiArt.json()
+            print("\(thisFunction) json = \(String(data:data, encoding: .utf8) ?? "nil" )")
+            try data.write(to: url)
+            print("\(thisFunction) success!")
+        } catch let encodingError where encodingError is EncodingError{
+            print("\(thisFunction) couldn't EmojiArt as JSON because \(encodingError.localizedDescription)") // Not for the user :D
+        }
+            catch let error {
+           // print("EmojiArtDocument.save(to:) error = \(error)") // Also we would get <error variable> without let error
+            // same as
+            print("\(thisFunction) error = \(error)")
+        }
+    }
     
     init(){
+        
         emojiArt = EmojiArtModel()
        // emojiArt.addEmoji("🐋", at: (-200,-100), size: 80) // 0,0 at the left top
        // emojiArt.addEmoji("🦣", at: (50,100), size: 40)
