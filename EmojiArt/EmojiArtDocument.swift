@@ -52,7 +52,11 @@ class EmojiArtDocument: ObservableObject {
     }
     
     init(){
-        
+        if let url = Autosave.url, let autosavedEmojiArt = try? EmojiArtModel(url: url){
+            emojiArt = autosavedEmojiArt
+            fetchBackgroundImageDataIfNecessary()
+            // autoloading if it available
+        }
         emojiArt = EmojiArtModel()
        // emojiArt.addEmoji("🐋", at: (-200,-100), size: 80) // 0,0 at the left top
        // emojiArt.addEmoji("🦣", at: (50,100), size: 40)
