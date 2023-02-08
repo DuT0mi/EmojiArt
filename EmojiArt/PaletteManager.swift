@@ -20,7 +20,9 @@ struct PaletteManager: View {
                 ForEach(store.palettes){palette in
                     NavigationLink(destination: PaletteEditor(palette: $store.palettes[palette])){
                         VStack(alignment: .leading){
-                            Text(palette.name).font(colorScheme == .dark ? .caption : .largeTitle)
+                            Text(palette.name)
+                              //  .font(colorScheme == .dark ? .largeTitle : .caption)
+                                .font(editMode == .active ? .largeTitle : .caption)
                             Text(palette.emojis)
                         }
                     }
@@ -29,7 +31,10 @@ struct PaletteManager: View {
             .navigationTitle("Manage Palettes")
             .navigationBarTitleDisplayMode(.inline)
            // .environment(\.colorScheme, .dark)
-            .environment(\.editMode, $editMode)
+            .toolbar{
+                EditButton()
+            }
+            .environment(\.editMode, $editMode) // Now the EditButton and the whole List{} looking for that editMode
         }
     }
 }
