@@ -11,6 +11,7 @@ struct PaletteManager: View {
     // It is editing the palette store so we definetely need it -> @Enviroment
     @EnvironmentObject var store: PaletteStore
     @Environment (\.colorScheme) var colorScheme
+    @Environment (\.presentationMode) var presentationMode
     
     @State private var editMode: EditMode = .inactive
     
@@ -25,6 +26,7 @@ struct PaletteManager: View {
                               //  .font(editMode == .active ? .largeTitle : .caption)
                             Text(palette.emojis)
                         }
+                        .gesture(editMode == .active ? tap : nil)
                     }
                 }.onDelete{indexSet in
                     store.palettes.remove(atOffsets: indexSet)
@@ -41,6 +43,9 @@ struct PaletteManager: View {
             }
             .environment(\.editMode, $editMode) // Now the EditButton and the whole List{} looking for that editMode
         }
+    }
+    var tap: some Gesture {
+        TapGesture().onEnded {  }
     }
 }
 
