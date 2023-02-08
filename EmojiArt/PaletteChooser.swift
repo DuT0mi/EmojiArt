@@ -35,6 +35,9 @@ struct PaletteChooser: View {
         AnimatedActionButton(title: "Delete", systemImage: "minus.circle"){
            chosenPaletteIndex = store.removePalette(at: chosenPaletteIndex)
         }
+        AnimatedActionButton(title: "Manager", systemImage: "slider.vertical.3"){
+            managing = true
+        }
         gotoMenu
     }
     var gotoMenu: some View{
@@ -71,7 +74,11 @@ struct PaletteChooser: View {
             PaletteEditor(palette: $store.palettes[palette])
             // If is not nil then it is on-screen, else off-screen
         }
+        .sheet(isPresented: $managing){
+            PaletteManager()
+        }
     }
+    @State private var managing:Bool = false // If it true, then it will be on-screen
     @State private var paletteToEdit: Palette?
     
     
