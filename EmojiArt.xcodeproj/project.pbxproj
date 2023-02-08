@@ -18,6 +18,7 @@
 		1A1085DD2990100200082FBB /* UtilityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1085DC2990100200082FBB /* UtilityViews.swift */; };
 		1ADE54CD2992ED0200CF7854 /* PaletteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE54CC2992ED0200CF7854 /* PaletteStore.swift */; };
 		1AE5E2A22993D6DD00390879 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */; };
+		1AE5E2A42993E25300390879 /* PaletteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE5E2A32993E25300390879 /* PaletteEditor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		1A1085DC2990100200082FBB /* UtilityViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViews.swift; sourceTree = "<group>"; };
 		1ADE54CC2992ED0200CF7854 /* PaletteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteStore.swift; sourceTree = "<group>"; };
 		1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
+		1AE5E2A32993E25300390879 /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */,
+				1AE5E2A32993E25300390879 /* PaletteEditor.swift */,
 				1A1085D429900A0100082FBB /* EmojiArtModel.swift */,
 				1A1085D829900E9200082FBB /* EmojiArtDocument.swift */,
 				1ADE54CC2992ED0200CF7854 /* PaletteStore.swift */,
@@ -160,6 +163,7 @@
 			files = (
 				1A1085DD2990100200082FBB /* UtilityViews.swift in Sources */,
 				1ADE54CD2992ED0200CF7854 /* PaletteStore.swift in Sources */,
+				1AE5E2A42993E25300390879 /* PaletteEditor.swift in Sources */,
 				1A1085C92990085100082FBB /* EmojiArtDocumentView.swift in Sources */,
 				1A1085C72990085100082FBB /* EmojiArtApp.swift in Sources */,
 				1A1085DB29900FF900082FBB /* UtilityExtensions.swift in Sources */,
