@@ -8,7 +8,7 @@
 import SwiftUI
 
 // ViewModel too
-struct Palette: Identifiable,Codable{
+struct Palette: Identifiable,Codable,Hashable{
     var name:String
     var emojis: String
     var id: Int

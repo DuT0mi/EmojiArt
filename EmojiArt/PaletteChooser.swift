@@ -67,17 +67,8 @@ struct PaletteChooser: View {
         }
         .id(palette.id)
         .transition(rollTransition)
-        /*
-         .popover(isPresented: $editing) {
-         // If editing is true
-         PaletteEditor(palette: $store.palettes[chosenPaletteIndex])
-         }
-         }
-         @State private var editing: Bool = false
-         */
-        // New one
         .popover(item: $paletteToEdit) { palette in
-            PaletteEditor(palette: $store.palettes[chosenPaletteIndex])
+            PaletteEditor(palette: $store.palettes[palette])
             // If is not nil then it is on-screen, else off-screen
         }
     }
