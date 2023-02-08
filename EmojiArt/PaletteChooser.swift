@@ -29,6 +29,20 @@ struct PaletteChooser: View {
         AnimatedActionButton(title: "Delete", systemImage: "minus.circle"){
            chosenPaletteIndex = store.removePalette(at: chosenPaletteIndex)
         }
+        gotoMenu
+    }
+    var gotoMenu: some View{
+        Menu {
+            ForEach(store.palettes){palette in
+                AnimatedActionButton(title: palette.name){
+                    if let index = store.palettes.firstIndex(where: {$0.id == palette.id}){
+                        chosenPaletteIndex = index
+                    }
+                }
+            }
+        }label: {
+            Label("Go To",systemImage: "text.insert")
+        }
     }
     var paletteControlButton: some View{
         Button{
@@ -37,7 +51,7 @@ struct PaletteChooser: View {
             Image(systemName: "paintpalette")
         }
         .font(emojiFont)
-        .contextMenu {contextMenu }
+        .contextMenu {contextMenu }// ViewBuilder
     }
     func body(for palette: Palette)-> some View{
         HStack{
