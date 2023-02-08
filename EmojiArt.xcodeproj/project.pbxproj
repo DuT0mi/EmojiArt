@@ -17,6 +17,7 @@
 		1A1085DB29900FF900082FBB /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1085DA29900FF900082FBB /* UtilityExtensions.swift */; };
 		1A1085DD2990100200082FBB /* UtilityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1085DC2990100200082FBB /* UtilityViews.swift */; };
 		1ADE54CD2992ED0200CF7854 /* PaletteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE54CC2992ED0200CF7854 /* PaletteStore.swift */; };
+		1AE5E2A22993D6DD00390879 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		1A1085DA29900FF900082FBB /* UtilityExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 		1A1085DC2990100200082FBB /* UtilityViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViews.swift; sourceTree = "<group>"; };
 		1ADE54CC2992ED0200CF7854 /* PaletteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteStore.swift; sourceTree = "<group>"; };
+		1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 		1A1085BA2990085100082FBB = {
 			isa = PBXGroup;
 			children = (
+				1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */,
 				1A1085C52990085100082FBB /* EmojiArt */,
 				1A1085C42990085100082FBB /* Products */,
 			);
@@ -163,6 +166,7 @@
 				1A1085D929900E9200082FBB /* EmojiArtDocument.swift in Sources */,
 				1A1085D529900A0100082FBB /* EmojiArtModel.swift in Sources */,
 				1A1085D729900D3B00082FBB /* EmojiArtModel.Background.swift in Sources */,
+				1AE5E2A22993D6DD00390879 /* PaletteChooser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,7 @@ struct EmojiArtApp: App {
         let document = EmojiArtDocument()
         let paletteStore = PaletteStore(named: "Default")
         WindowGroup {
-            EmojiArtDocumentView(document: document)
+            EmojiArtDocumentView(document: document).environmentObject(paletteStore)
         }
     }
 }
