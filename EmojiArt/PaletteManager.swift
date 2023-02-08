@@ -16,16 +16,21 @@ struct PaletteManager: View {
     
     var body: some View {
         NavigationView {
-            List{
+            List {
                 ForEach(store.palettes){palette in
                     NavigationLink(destination: PaletteEditor(palette: $store.palettes[palette])){
                         VStack(alignment: .leading){
                             Text(palette.name)
                               //  .font(colorScheme == .dark ? .largeTitle : .caption)
-                                .font(editMode == .active ? .largeTitle : .caption)
+                              //  .font(editMode == .active ? .largeTitle : .caption)
                             Text(palette.emojis)
                         }
                     }
+                }.onDelete{indexSet in
+                    store.palettes.remove(atOffsets: indexSet)
+                }
+                .onMove{ IndexSet,newOffSet in
+                    store.palettes.move(fromOffsets: IndexSet, toOffset: newOffSet)
                 }
             }
             .navigationTitle("Manage Palettes")
