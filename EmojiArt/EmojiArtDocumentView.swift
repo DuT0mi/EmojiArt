@@ -17,6 +17,19 @@ struct EmojiArtDocumentView: View {
             PaletteChooser(emojiFontSize: defaultEmojiFontsize)
         }
     }
+    @State private var alertToShow: IdentifiableAlert?
+    
+    private func showBackgroundImageFetchFailedAlert(_ url: URL){
+        alertToShow = IdentifiableAlert(id: "fetch failed " + url.absoluteString, alert: {
+            Alert(
+                title: Text("Backgound Image fetch"),
+                message: Text("Couldn't load image from \(url)"),
+                dismissButton: .default(Text("Ok")) // default btn
+                
+            )
+        })
+    }
+    
     var documentBody: some View{
         GeometryReader{ geometry in
             ZStack{
@@ -42,6 +55,16 @@ struct EmojiArtDocumentView: View {
             }
             .gesture(panGesture().simultaneously(with: zoomGesture()))
             // That's the way of adding multiple gestures
+            .alert(item: $alertToShow) {alertToShow in
+                // return an Alert <- notice the capital "A"
+                alertToShow.alert()
+            }
+            .onChange(of: document.backgroundImageFetchStatus){status in
+                switch status{
+                case .failed(let url): showBackgroundImageFetchFailedAlert(url)
+                default: break
+                }
+            }
         }
     }
     private func doubleTapToZoom(in size: CGSize)->some Gesture{
