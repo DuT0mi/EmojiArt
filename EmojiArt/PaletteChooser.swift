@@ -19,13 +19,25 @@ struct PaletteChooser: View {
             paletteControlButton
             body(for: store.palette(at: chosenPaletteIndex))// id:1 - Vehicles, id:2 - Sport, id:3 - Faces
         }
+        .clipped()
+    }
+    @ViewBuilder
+    var contextMenu: some View{
+        AnimatedActionButton(title: "New", systemImage: "plus"){
+            store.insertPalette(named: "New",emojis: "",at: chosenPaletteIndex)
+        }
+        AnimatedActionButton(title: "Delete", systemImage: "minus.circle"){
+           chosenPaletteIndex = store.removePalette(at: chosenPaletteIndex)
+        }
     }
     var paletteControlButton: some View{
         Button{
             chosenPaletteIndex = (chosenPaletteIndex + 1) % store.palettes.count
         } label: {
             Image(systemName: "paintpalette")
-        }.font(emojiFont)
+        }
+        .font(emojiFont)
+        .contextMenu {contextMenu }
     }
     func body(for palette: Palette)-> some View{
         HStack{
@@ -33,6 +45,11 @@ struct PaletteChooser: View {
             ScrollingEmojisView(emojis: palette.emojis)
                 .font(emojiFont)
         }
+        .id(palette.id)
+        .transition(rollTransition)
+    }
+    var rollTransition: AnyTransition {
+        AnyTransition.asymmetric(insertion: .offset(x: 0,y: emojiFontSize), removal: .offset(x: 0 , y: -emojiFontSize))
     }
 }
 
