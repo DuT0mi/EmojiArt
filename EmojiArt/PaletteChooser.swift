@@ -24,11 +24,13 @@ struct PaletteChooser: View {
     @ViewBuilder
     var contextMenu: some View{
         AnimatedActionButton(title: "Edit", systemImage: "pencil"){
-            editing = true;
+          //  editing = true;
+            paletteToEdit = store.palette(at: chosenPaletteIndex)
         }
         AnimatedActionButton(title: "New", systemImage: "plus"){
             store.insertPalette(named: "New",emojis: "",at: chosenPaletteIndex)
-            editing = true
+      //      editing = true
+            paletteToEdit = store.palette(at: chosenPaletteIndex)
         }
         AnimatedActionButton(title: "Delete", systemImage: "minus.circle"){
            chosenPaletteIndex = store.removePalette(at: chosenPaletteIndex)
@@ -65,12 +67,22 @@ struct PaletteChooser: View {
         }
         .id(palette.id)
         .transition(rollTransition)
-        .popover(isPresented: $editing) {
-            // If editing is true
-            PaletteEditor()
+        /*
+         .popover(isPresented: $editing) {
+         // If editing is true
+         PaletteEditor(palette: $store.palettes[chosenPaletteIndex])
+         }
+         }
+         @State private var editing: Bool = false
+         */
+        // New one
+        .popover(item: $paletteToEdit) { palette in
+            PaletteEditor(palette: $store.palettes[chosenPaletteIndex])
+            // If is not nil then it is on-screen, else off-screen
         }
     }
-    @State private var editing: Bool = false
+    @State private var paletteToEdit: Palette?
+    
     
     var rollTransition: AnyTransition {
         AnyTransition.asymmetric(insertion: .offset(x: 0,y: emojiFontSize), removal: .offset(x: 0 , y: -emojiFontSize))
