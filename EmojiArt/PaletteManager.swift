@@ -39,7 +39,17 @@ struct PaletteManager: View {
             .navigationBarTitleDisplayMode(.inline)
            // .environment(\.colorScheme, .dark)
             .toolbar{
-                EditButton()
+                ToolbarItem {
+                    EditButton()
+                }
+                ToolbarItem(placement: .navigationBarLeading){
+                    if presentationMode.wrappedValue.isPresented, UIDevice.current.userInterfaceIdiom != .pad {
+                        Button("Close"){
+                            // it is not neccessary on iPad (the User can tap anywhere else to leave), but on iPhone (.phone) it is
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                }
             }
             .environment(\.editMode, $editMode) // Now the EditButton and the whole List{} looking for that editMode
         }
