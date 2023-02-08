@@ -31,24 +31,10 @@ class PaletteStore: ObservableObject {
         "PaletteStore:" + name
     }
     private func storeInUserDefaults(){
-        /*
-        UserDefaults.standard.set(palettes.map {[$0.name,$0.emojis,String($0.id)]}, forKey: userDefaultsKey)// .map because it MUST TO BE  a property list
-         */
-        
         // More elegant
         UserDefaults.standard.set(try? JSONEncoder().encode(palettes),forKey: userDefaultsKey)
     }
     private func restoreFromUserDefaults(){
-        /*
-        if let paletteAsPropertyList = UserDefaults.standard.array(forKey: userDefaultsKey) as? [[String]]{ // because of Any, it has to be cast to  [[String]]
-            for paletteArray in paletteAsPropertyList {
-                if paletteArray.count == 3, let id = Int(paletteArray[2]), !palettes.contains(where: {$0.id == id}){
-                    let palette = Palette(name: paletteArray[0], emojis: paletteArray[1], id: id)
-                    palettes.append(palette)
-                }
-            }
-        }
-         */
         // Much nicer
         if let jsonData = UserDefaults.standard.data(forKey: userDefaultsKey),
            let decodedPalettes = try? JSONDecoder().decode(Array<Palette>.self, from: jsonData){
