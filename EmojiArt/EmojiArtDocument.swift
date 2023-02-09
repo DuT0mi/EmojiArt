@@ -91,30 +91,19 @@ class EmojiArtDocument: ObservableObject {
         case .url(let url):
             // fetch the url
             backgroundImageFetchStatus = .fetching
+            backgroundImageFetchCancellabe?.cancel() // For cancelling the previous one(s) (like we did in the old version, checking the old one
             let session = URLSession.shared
             let publisher = session.dataTaskPublisher(for: url)
                 .map{(data,URLResponse) in UIImage(data: data) }
-          //      .replaceError(with: nil) // for cancellabe
+                .replaceError(with: nil) // for cancellabe
+                .receive(on: DispatchQueue.main)
             
             // Lifetime of a scubcriber attached to a var
             backgroundImageFetchCancellabe = publisher
-//                .assign(to: \EmojiArtDocument.backgroundImage, on:self)
-                .sink(receiveCompletion: { result in
-                    switch result{
-                    case .finished: print("success")
-                    case .failure(let error): print("failer error = \(error)")// URL error
-                    }
+                .sink{ [weak self] image in
+                    self?.backgroundImage = image
+                    self?.backgroundImageFetchStatus = (image != nil ) ? .idle : .failed(url)
                 }
-                        
-                       ,
-                      receiveValue:
-                         { [weak self] image in
-                            // When I get it (the image)
-                            self?.backgroundImage = image
-                            self?.backgroundImageFetchStatus = ((image != nil) ? .idle : .failed(url))
-                            // With [weak self] it only live here in that closure and will be not stored in the memory
-                        }
-            )
             
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
