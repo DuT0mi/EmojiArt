@@ -96,8 +96,15 @@ class EmojiArtDocument: ObservableObject {
                 .map{(data,URLResponse) in UIImage(data: data) }
                 .replaceError(with: nil) // for cancellabe
             
+            // Lifetime of a scubcriber attached to a var
             backgroundImageFetchCancellabe = publisher
-                .assign(to: \EmojiArtDocument.backgroundImage, on:self)
+//                .assign(to: \EmojiArtDocument.backgroundImage, on:self)
+                .sink { [weak self] image in
+                    // When I get it (the image)
+                    self?.backgroundImage = image
+                    self?.backgroundImageFetchStatus = ((image != nil) ? .idle : .failed(url))
+                    // With [weak self] it only live here in that closure and will be not stored in the memory
+                }
             
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
