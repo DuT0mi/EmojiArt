@@ -94,17 +94,27 @@ class EmojiArtDocument: ObservableObject {
             let session = URLSession.shared
             let publisher = session.dataTaskPublisher(for: url)
                 .map{(data,URLResponse) in UIImage(data: data) }
-                .replaceError(with: nil) // for cancellabe
+          //      .replaceError(with: nil) // for cancellabe
             
             // Lifetime of a scubcriber attached to a var
             backgroundImageFetchCancellabe = publisher
 //                .assign(to: \EmojiArtDocument.backgroundImage, on:self)
-                .sink { [weak self] image in
-                    // When I get it (the image)
-                    self?.backgroundImage = image
-                    self?.backgroundImageFetchStatus = ((image != nil) ? .idle : .failed(url))
-                    // With [weak self] it only live here in that closure and will be not stored in the memory
+                .sink(receiveCompletion: { result in
+                    switch result{
+                    case .finished: print("success")
+                    case .failure(let error): print("failer error = \(error)")// URL error
+                    }
                 }
+                        
+                       ,
+                      receiveValue:
+                         { [weak self] image in
+                            // When I get it (the image)
+                            self?.backgroundImage = image
+                            self?.backgroundImageFetchStatus = ((image != nil) ? .idle : .failed(url))
+                            // With [weak self] it only live here in that closure and will be not stored in the memory
+                        }
+            )
             
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
