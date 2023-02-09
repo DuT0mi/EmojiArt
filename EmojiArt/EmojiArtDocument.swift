@@ -10,6 +10,7 @@
 
 
 import SwiftUI
+import Combine
 
 class EmojiArtDocument: ObservableObject {
     
@@ -81,12 +82,26 @@ class EmojiArtDocument: ObservableObject {
         case fetching
         case failed(URL)
     }
+    private var backgoundImageFetchCancellabe: AnyCancellable?
+    
+    
     private func fetchBackgroundImageDataIfNecessary(){
         backgroundImage = nil
         switch emojiArt.background{
         case .url(let url):
             // fetch the url
             backgroundImageFetchStatus = .fetching
+            let session = URLSession.shared
+            let publisher = session.dataTaskPublisher(for: url)
+                .map{(data,URLResponse) in UIImage(data: data) }
+                .replaceError(with: nil) // for cancellabe
+            
+            let cancellable = publisher
+                .assign(to: \EmojiArtDocument.backgroundImage, on:self)
+            
+            
+
+            /*
             DispatchQueue.global(qos: .userInitiated).async {
                 let imageData = try? Data(contentsOf: url)
                 DispatchQueue.main.async {// UI only in the main
@@ -102,6 +117,7 @@ class EmojiArtDocument: ObservableObject {
                     }
                 }
             }
+        */
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
         case .blank:break
