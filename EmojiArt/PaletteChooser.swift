@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PaletteChooser: View {
-    var emojiFontSize: CGFloat = 40
+    @ScaledMetric var emojiFontSize: CGFloat = 40
     var emojiFont:Font {.system(size:emojiFontSize)}
     
     @EnvironmentObject var store: PaletteStore
