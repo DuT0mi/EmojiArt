@@ -66,7 +66,9 @@ struct EmojiArtDocumentView: View {
                 }
             }
             .onReceive(document.$backgroundImage){image in
-                zoomToFit(image, in: geometry.size)
+                if autozoom{
+                    zoomToFit(image, in: geometry.size)
+                }
             }
         }
     }
@@ -78,8 +80,8 @@ struct EmojiArtDocumentView: View {
                 }
             }
     }
-    
-    @State private var steadyStatePanOffset: CGSize = CGSize.zero
+    @State private var autozoom = false
+    @SceneStorage("EmojiArtDocumentView.steadyStatePanOffset") private var steadyStatePanOffset: CGSize = CGSize.zero
     @GestureState private var gesturePanOffSet: CGSize = CGSize.zero
     
     private var panOffsetSize:CGSize {
@@ -97,7 +99,7 @@ struct EmojiArtDocumentView: View {
         }
     }
     
-    @State private var steadyStateZoomScale: CGFloat = 1
+    @SceneStorage("EmojiArtDocumentView.steadyStateZoomScale") private var steadyStateZoomScale: CGFloat = 1
     @GestureState private var gestureZoomScale: CGFloat = 1
     
     
@@ -127,11 +129,13 @@ struct EmojiArtDocumentView: View {
     }
     private func drop(providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy)->Bool{
         var found = providers.loadObjects(ofType: URL.self ){url in
+            autozoom = true
             document.setBackground(EmojiArtModel.Background.url(url.imageURL)) // in UtilityExtension.swift
         }
         if !found {
             found = providers.loadObjects(ofType: UIImage.self ){image in
                 if let data = image.jpegData(compressionQuality: 1.0){
+                    autozoom = true
                     document.setBackground(.imageData(data))
                 }
             }
