@@ -72,6 +72,12 @@ struct EmojiArtDocumentView: View {
                     zoomToFit(image, in: geometry.size)
                 }
             }
+            .toolbar {
+                UndoButton(
+                undo: undoManager?.optionalUndoMenuItemTitle,
+                redo: undoManager?.optionalRedoMenuItemTitle
+                )
+            }
         }
     }
     private func doubleTapToZoom(in size: CGSize)->some Gesture{
