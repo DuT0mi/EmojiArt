@@ -122,6 +122,7 @@ extension View {
                     .navigationBarTitleDisplayMode(.inline)
                     .dismissable(dismiss)
                 }
+            .navigationViewStyle(StackNavigationViewStyle())// never do side-by-side
         } else {
             self
         }
