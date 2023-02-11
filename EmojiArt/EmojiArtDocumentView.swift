@@ -35,11 +35,11 @@ struct EmojiArtDocumentView: View {
     var documentBody: some View{
         GeometryReader{ geometry in
             ZStack{
-                Color.white.overlay{
+                Color.white
                     OptionalImage(uiImage: document.backgroundImage) // In the extension
                         .scaleEffect(zoomScale)
                         .position(convertFromCoordinates((0,0), in: geometry))// 0,0 is the middle in that (converted) coordinate system
-                }
+                
                 .gesture(doubleTapToZoom(in:geometry.size))
                 if document.backgroundImageFetchStatus == .fetching {
                     ProgressView().scaleEffect(2)
@@ -92,7 +92,16 @@ struct EmojiArtDocumentView: View {
         }
     }
     private func pasteBackground(){
-        
+        if let imageData = UIPasteboard.general.image?.jpegData(compressionQuality: 1.0){
+            document.setBackground(.imageData(imageData), undoManager: undoManager)
+        }else if let url = UIPasteboard.general.url?.imageURL {
+           document.setBackground(.url(url), undoManager: undoManager)
+        } else {
+            alertToShow = IdentifiableAlert(
+                title:"Paste Background",
+                message: "There is no image currently on the pastboard."
+            )
+        }
     }
     private func doubleTapToZoom(in size: CGSize)->some Gesture{
         TapGesture(count: 2)
