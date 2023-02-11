@@ -73,6 +73,9 @@ struct PaletteChooser: View {
         .popover(item: $paletteToEdit) { palette in
             PaletteEditor(palette: $store.palettes[palette])
             // If is not nil then it is on-screen, else off-screen
+                .wrappedInNavigationViewToMakeDismissable { paletteToEdit
+                    = nil 
+                } // for landscape
         }
         .sheet(isPresented: $managing){
             PaletteManager()
