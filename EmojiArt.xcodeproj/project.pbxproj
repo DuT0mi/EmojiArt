@@ -20,6 +20,8 @@
 		1AE5E2A22993D6DD00390879 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */; };
 		1AE5E2A42993E25300390879 /* PaletteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE5E2A32993E25300390879 /* PaletteEditor.swift */; };
 		1AE5E2A62993ECB700390879 /* PaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE5E2A52993ECB700390879 /* PaletteManager.swift */; };
+		1AE97AD82997DA0E00B9B027 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE97AD72997DA0E00B9B027 /* Camera.swift */; };
+		1AE97ADA2998104400B9B027 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE97AD92998104400B9B027 /* PhotoLibrary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
 		1AE5E2A32993E25300390879 /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = "<group>"; };
 		1AE5E2A52993ECB700390879 /* PaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteManager.swift; sourceTree = "<group>"; };
+		1AE97AD72997DA0E00B9B027 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		1AE97AD92998104400B9B027 /* PhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				1A06E40E299694DE00A32259 /* Info.plist */,
+				1AE97AD92998104400B9B027 /* PhotoLibrary.swift */,
 				1AE5E2A12993D6DD00390879 /* PaletteChooser.swift */,
 				1AE5E2A52993ECB700390879 /* PaletteManager.swift */,
 				1AE5E2A32993E25300390879 /* PaletteEditor.swift */,
@@ -82,6 +87,7 @@
 				1A1085DA29900FF900082FBB /* UtilityExtensions.swift */,
 				1A1085DC2990100200082FBB /* UtilityViews.swift */,
 				1A1085C82990085100082FBB /* EmojiArtDocumentView.swift */,
+				1AE97AD72997DA0E00B9B027 /* Camera.swift */,
 				1A1085CA2990085200082FBB /* Assets.xcassets */,
 				1A1085CC2990085200082FBB /* Preview Content */,
 			);
@@ -167,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A1085DD2990100200082FBB /* UtilityViews.swift in Sources */,
+				1AE97ADA2998104400B9B027 /* PhotoLibrary.swift in Sources */,
 				1AE5E2A62993ECB700390879 /* PaletteManager.swift in Sources */,
 				1ADE54CD2992ED0200CF7854 /* PaletteStore.swift in Sources */,
 				1AE5E2A42993E25300390879 /* PaletteEditor.swift in Sources */,
@@ -174,6 +181,7 @@
 				1A1085C72990085100082FBB /* EmojiArtApp.swift in Sources */,
 				1A1085DB29900FF900082FBB /* UtilityExtensions.swift in Sources */,
 				1A1085D929900E9200082FBB /* EmojiArtDocument.swift in Sources */,
+				1AE97AD82997DA0E00B9B027 /* Camera.swift in Sources */,
 				1A1085D529900A0100082FBB /* EmojiArtModel.swift in Sources */,
 				1A1085D729900D3B00082FBB /* EmojiArtModel.Background.swift in Sources */,
 				1AE5E2A22993D6DD00390879 /* PaletteChooser.swift in Sources */,
@@ -306,6 +314,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EmojiArt/Preview Content\"";
+				DEVELOPMENT_TEAM = N3LA7VX648;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EmojiArt/Info.plist;
@@ -336,6 +345,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EmojiArt/Preview Content\"";
+				DEVELOPMENT_TEAM = N3LA7VX648;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EmojiArt/Info.plist;
