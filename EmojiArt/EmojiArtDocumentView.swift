@@ -72,13 +72,27 @@ struct EmojiArtDocumentView: View {
                     zoomToFit(image, in: geometry.size)
                 }
             }
-            .toolbar {
-                UndoButton(
-                undo: undoManager?.optionalUndoMenuItemTitle,
-                redo: undoManager?.optionalRedoMenuItemTitle
-                )
+            .compactableToolbar {
+                    AnimatedActionButton(title: "Paste Background",systemImage: "doc.on.clipboard"){
+                        pasteBackground()
+                    }
+                    if let undoManager = undoManager {
+                        if undoManager.canUndo{
+                            AnimatedActionButton(title:undoManager.undoActionName,systemImage: "arrow.uturn.backward"){
+                                undoManager.undo()
+                            }
+                        }
+                        if undoManager.canRedo{
+                            AnimatedActionButton(title:undoManager.redoActionName,systemImage: "arrow.uturn.forward"){
+                                undoManager.redo()
+                            }
+                        }
+                    }
             }
         }
+    }
+    private func pasteBackground(){
+        
     }
     private func doubleTapToZoom(in size: CGSize)->some Gesture{
         TapGesture(count: 2)
